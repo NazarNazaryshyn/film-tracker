@@ -11,7 +11,7 @@ db_init = Blueprint('db_init', __name__, static_folder='static')
 @click.command(name='create_tables')
 @with_appcontext
 def create_tables():
-    from main import db, User, Film
+    from app import db, User, Film
 
     db.create_all()
 
@@ -19,6 +19,6 @@ def create_tables():
 @click.command(name='drop_tables')
 @with_appcontext
 def drop_tables():
-    from main import db, User, Film
+    from app import db, User, Film
 
     db.drop_all()
