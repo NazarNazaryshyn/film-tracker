@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}
+    {% if greet_title %}
+        <div class="col-lg-12 col-md-12 text-center">
+            <h1 id="fh5co-logo" class="greet-title">{{ greet_title }}</h1>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+		<div class="row fh5co-post-entry">
+            {% if cards %}
+                {% for item in cards %}
+                 <article class="col-lg-3 col-md-3 col-sm-3 col-xs-6 col-xxs-12 animate-box" id="memberSection">
+                        <figure class="article-block">
+                            <img src=https://www.themoviedb.org/t/p/w600_and_h900_bestv2{{ item['image'] }} alt="Image" class="img-responsive">
+                        </figure>
+                     <span class="fh5co-meta">{{ item['title']|truncate(20)}}({{ item['date'] }})</span>
+                     <h2 class="fh5co-article-title">{{ item['vote'] }}/10</h2>
+                     {% if current_user.is_authenticated %}
+                         {% if item['id'] in film_ids %}
+                             <a class="btn btn-primary remove-btn"  href={{ url_for('remove_film', film_id=item['id']) }}>Remove film</a>
+                         {% else %}
+                            <a class="btn btn-primary login-btn" href={{ url_for('add_film', film_id=item['id']) }}>Add film</a>
+                         {% endif %}
+                    {% endif %}
+			        </article>
+                {% endfor %}
+            {% endif %}
+		</div>
+	</div>
+{% endblock %}
