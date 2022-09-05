@@ -1,9 +1,8 @@
 import os
-
 import requests
 
-# API_KEY = str(os.environ.get('API_KEY'))
 
+API_KEY = os.environ.get('API_KEY')
 
 def get_films(url):
     res = []
@@ -35,7 +34,7 @@ def get_films(url):
 
 def find_film_by_id(id):
 
-    response = requests.get(f'https://api.themoviedb.org/3/movie/{id}?api_key=a267871a22077a6a1c13f4399b28887f').json()
+    response = requests.get(f'https://api.themoviedb.org/3/movie/{id}?api_key={API_KEY}').json()
 
     return {
             'title':response['original_title'],
@@ -49,7 +48,7 @@ def find_film_by_id(id):
 def search_movie(title):
     res = []
     response = requests.get(
-        f'https://api.themoviedb.org/3/search/movie?api_key=a267871a22077a6a1c13f4399b28887f&'
+        f'https://api.themoviedb.org/3/search/movie?api_key={API_KEY}&'
         f'language=en-US&query={title}&page=1&include_adult=false')
 
     for card in response.json()['results']:
@@ -88,11 +87,11 @@ def form_url(query):
     }
 
     if query.split('_')[-1] == 'serials':
-        url = 'https://api.themoviedb.org/3' + url_dict[query[:-8]].replace('movie', 'tv') + f'a267871a22077a6a1c13f4399b28887f'
+        url = 'https://api.themoviedb.org/3' + url_dict[query[:-8]].replace('movie', 'tv') + f'{API_KEY}'
         print(url)
         return get_films(url)
 
-    url = f'https://api.themoviedb.org/3' + url_dict[query] + f'a267871a22077a6a1c13f4399b28887f'
+    url = f'https://api.themoviedb.org/3' + url_dict[query] + f'{API_KEY}'
     print(url)
 
     return get_films(url)
