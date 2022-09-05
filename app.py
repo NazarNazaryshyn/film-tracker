@@ -15,8 +15,8 @@ db.init_app(app)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'movie.db')
-app.config['SECRET_KEY'] = 'fakfkafk30f2afkakk2fafa'
-# API_KEY = os.environ.get('API_KEY')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+
 
 login_manager = LoginManager()
 login_manager.login_view = 'authentication.login'
