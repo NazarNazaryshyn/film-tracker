@@ -37,6 +37,9 @@ app.register_blueprint(auth)
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
+    """
+    The main function that renders the home page with the list of popular films
+    """
     if current_user.is_authenticated:
         user = User.query.filter_by(id=current_user.get_id()).first()
         film_ids = [int(film.film_id) for film in user.films]
@@ -52,6 +55,9 @@ def home():
 
 @app.route('/saved_films/')
 def saved_films():
+    """
+    The function that returns the list of saved films for watching
+    """
     user = User.query.filter_by(id=current_user.get_id()).first()
     cards = [find_film_by_id(int(film.film_id)) for film in user.films]
     film_ids = [int(film.film_id) for film in user.films]
@@ -61,6 +67,10 @@ def saved_films():
 
 @app.route('/search/<title>')
 def search_results(title):
+    """
+    The function that takes film title as argument and returns the list of films
+    on the given criteria
+    """
     cards = search_movie(title)
     greet_title = f'Searching results for {title}'
     return render_template('home.html', cards=cards, greet_title=greet_title)
@@ -68,6 +78,11 @@ def search_results(title):
 
 @app.route('/movies/<filter>', methods=['POST', 'GET'])
 def home_ext(filter):
+    """
+    The function that renders the home page with the list of films sorted by
+    categories
+ 
+    """
     if current_user.is_authenticated:
         user = User.query.filter_by(id=current_user.get_id()).first()
         film_ids = [int(film.film_id) for film in user.films]
@@ -84,7 +99,11 @@ def home_ext(filter):
 
 
 @app.route('/remove_film/<film_id>')
+
 def remove_film(film_id):
+    """
+    The function that takes as argument film id and remove it from user watchlist
+    """
     film = Film.query.filter_by(film_id=film_id).first()
     db.session.delete(film)
     db.session.commit()
@@ -94,7 +113,9 @@ def remove_film(film_id):
 
 @app.route('/add_film/<film_id>')
 def add_film(film_id):
-
+    """
+    The function that takes as argument film id and adds it to user watchlist
+    """
     new_film = Film(
         film_id=film_id,
         owner_id=current_user.get_id()
