@@ -5,6 +5,9 @@ import requests
 API_KEY = os.environ.get('API_KEY')
 
 def get_films(url):
+    """
+    The function that takes formed url and returns the list with film cards
+    """
     res = []
     response = requests.get(url)
     for card in response.json()['results']:
@@ -33,7 +36,9 @@ def get_films(url):
 
 
 def find_film_by_id(id):
-
+    """
+    The function that is used to fetch information about film with given id 
+    """
     response = requests.get(f'https://api.themoviedb.org/3/movie/{id}?api_key={API_KEY}').json()
 
     return {
@@ -46,6 +51,10 @@ def find_film_by_id(id):
 
 
 def search_movie(title):
+    """
+    The function that takes film title as argument and returns the list with film cards 
+    on given criteria
+    """
     res = []
     response = requests.get(
         f'https://api.themoviedb.org/3/search/movie?api_key={API_KEY}&'
@@ -78,6 +87,9 @@ def search_movie(title):
 
 
 def form_url(query):
+    """
+    The function that takes user query to form appropriate url
+    """
     url_dict = {
         'popular_this_week': '/trending/movie/week?api_key=',
         'popular_this_day': '/trending/movie/day?api_key=',
